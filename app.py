@@ -158,11 +158,10 @@ with tab1:
 with tab2:
     st.subheader("Cosine Similarity Product Recommendations")
 
-   product_id_input = st.selectbox(
-       "Select Product ID",
-       options=sorted(product_ids)
+    product_id_input = st.selectbox(
+        "Select Product ID",
+        options=sorted(product_ids)
     )
-
 
     if st.button("Find Similar Products"):
         similar_products = recommend_similar_products(
