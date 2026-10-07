@@ -906,7 +906,11 @@ model_bundle = {
     "product_ids": product_ids,
     "user_to_idx": user_to_idx,
     "product_to_idx": product_to_idx,
-
+    
+    "item_model": item_model,
+    "user_product_matrix": user_product_matrix,
+    "product_mapping": product_mapping,
+    
     "kmeans_labels": kmeans_labels,
     "minibatch_labels": mbkmeans_labels,
 
