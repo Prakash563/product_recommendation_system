@@ -34,6 +34,7 @@ kmeans_model = model_bundle["kmeans_model"]
 minibatch_kmeans_model = model_bundle["minibatch_kmeans_model"]
 svd_model = model_bundle["svd_model"]
 cosine_model = model_bundle["cosine_model"]
+product_mapping = model_bundle["product_mapping"]
 
 user_item_matrix = model_bundle["user_item_matrix"]
 
