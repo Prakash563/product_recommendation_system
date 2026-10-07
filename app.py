@@ -134,10 +134,10 @@ tab1, tab2, tab3 = st.tabs([
 with tab1:
     st.subheader("User-Based Product Recommendations")
 
-    user_id_input = st.text_input(
-        "Enter User ID",
-        value=str(user_ids[0])
-    )
+    user_id_input = st.selectbox(
+    "Select User ID",
+    options=sorted(user_ids)
+)
 
     if st.button("Recommend Products for User"):
         cluster, recommendations = recommend_for_user(
@@ -158,10 +158,11 @@ with tab1:
 with tab2:
     st.subheader("Cosine Similarity Product Recommendations")
 
-    product_id_input = st.text_input(
-        "Enter Product ID",
-        value=str(product_ids[0])
+   product_id_input = st.selectbox(
+        "Select Product ID",
+        options=sorted(product_ids)
     )
+
 
     if st.button("Find Similar Products"):
         similar_products = recommend_similar_products(
