@@ -15,14 +15,13 @@ st.set_page_config(
 st.title("Product Recommendation System")
 st.write("This app uses saved trained models for product recommendation.")
 
-import joblib
+
 
 @st.cache_resource
 def load_model_bundle():
     model_bundle = joblib.load("models/product_recommendation_models.joblib")
     return model_bundle
 
-import joblib
 import streamlit as st
 
 @st.cache_resource
