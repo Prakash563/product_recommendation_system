@@ -86,15 +86,19 @@ def recommend_for_user(user_id, model_name="KMeans", top_n=10):
     return cluster, recommendations
 
 def recommend_similar_products(product_id, top_n=10):
-    if product_id not in product_to_idx:
+    product_row = product_mapping[
+        product_mapping["productid"] == product_id
+    ]
+
+    if product_row.empty:
         return pd.DataFrame(columns=["productid", "similarity_score"])
 
-    product_index = product_to_idx[product_id]
+    product_index = product_row["product_index"].values[0]
 
-    n_neighbors = min(top_n + 1, len(product_ids))
+    n_neighbors = min(top_n + 1, user_product_matrix.T.shape[0])
 
-    distances, indices = cosine_model.kneighbors(
-        user_item_matrix.T[product_index],
+    distances, indices = item_model.kneighbors(
+        user_product_matrix.T[product_index],
         n_neighbors=n_neighbors
     )
 
@@ -102,11 +106,13 @@ def recommend_similar_products(product_id, top_n=10):
     similarity_scores = 1 - distances.flatten()[1:]
 
     result = pd.DataFrame({
-        "productid": product_ids[recommended_indices],
+        "product_index": recommended_indices,
         "similarity_score": similarity_scores
     })
 
-    return result
+    result = result.merge(product_mapping, on="product_index", how="left")
+
+    return result[["productid", "similarity_score"]]
 
 def get_popular_products(top_n=10):
     return popular_products.head(top_n)
@@ -181,32 +187,5 @@ with tab3:
 
     st.dataframe(top_popular_products, use_container_width=True)
 
-def recommend_similar_products(product_id, top_n=10):
-    product_row = product_mapping[
-        product_mapping["productid"] == product_id
-    ]
 
-    if product_row.empty:
-        return pd.DataFrame(columns=["productid", "similarity_score"])
-
-    product_index = product_row["product_index"].values[0]
-
-    n_neighbors = min(top_n + 1, user_product_matrix.T.shape[0])
-
-    distances, indices = item_model.kneighbors(
-        user_product_matrix.T[product_index],
-        n_neighbors=n_neighbors
-    )
-
-    recommended_indices = indices.flatten()[1:]
-    similarity_scores = 1 - distances.flatten()[1:]
-
-    result = pd.DataFrame({
-        "product_index": recommended_indices,
-        "similarity_score": similarity_scores
-    })
-
-    result = result.merge(product_mapping, on="product_index", how="left")
-
-    return result[["productid", "similarity_score"]]
 
