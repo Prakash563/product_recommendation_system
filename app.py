@@ -6,7 +6,7 @@ import pandas as pd
 import streamlit as st
 import joblib
 
-!pip install streamlit
+
 
 st.set_page_config(
     page_title="Product Recommendation System",
